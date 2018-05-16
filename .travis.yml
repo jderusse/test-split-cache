@@ -1,0 +1,19 @@
+sudo: required
+services:
+  - docker
+cache:
+  directories:
+    - "/cache/gitsplit"
+install:
+  - docker pull jderusse/gitsplit:golang
+  - git config remote.origin.fetch "+refs/*:refs/*"
+  - git config remote.origin.mirror true
+  - git fetch --unshallow || git fetch
+script:
+  - docker run --rm -t -v .ssh:/root/.ssh -v /cache/gitsplit:/cache/gitsplit -v ${PWD}:/srv jderusse/gitsplit:golang
+before_install:
+  - mkdir -p .ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > .ssh/config
+  - openssl aes-256-cbc -K $encrypted_42099b4af021_key -iv $encrypted_42099b4af021_iv -in .gitsplit-idrsa.enc -out .ssh/id_rsa -d
+  - chmod 0400 .ssh/id_rsa
+  - ls -al .ssh
