@@ -3,9 +3,9 @@ cache_dir: "/cache/gitsplit"
 
 splits:
   - prefix: "a"
-    target: "git@github.com:jderusse/test-split-a.git"
+    target: "https://${GH_TOKEN}@github.com/jderusse/test-split-a.git"
   - prefix: "b"
-    target: "git@github.com:jderusse/test-split-b.git"
+    target: "https://${GH_TOKEN}@github.com/jderusse/test-split-b.git"
 
 origins:
   - ^master$

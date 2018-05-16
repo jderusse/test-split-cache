@@ -10,10 +10,7 @@ install:
   - git config remote.origin.mirror true
   - git fetch --unshallow || git fetch
 script:
-  - docker run --rm -t -v .ssh:/root/.ssh -v /cache/gitsplit:/cache/gitsplit -v ${PWD}:/srv jderusse/gitsplit:golang
-before_install:
-  - mkdir -p .ssh
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > .ssh/config
-  - openssl aes-256-cbc -K $encrypted_42099b4af021_key -iv $encrypted_42099b4af021_iv -in .gitsplit-idrsa.enc -out .ssh/id_rsa -d
-  - chmod 0400 .ssh/id_rsa
-  - ls -al .ssh
+  - docker run --rm -t -e GH_TOKEN -v /cache/gitsplit:/cache/gitsplit -v ${PWD}:/srv jderusse/gitsplit:golang
+env:
+  global:
+    secure: VntIZoHr/49zVzhNrGZkOIT8PMC4GXSNXopHIo8WMURc7/Hes/61CzS4Rmgl3iJSuU1hpXM6Rr2u04M8IkcKq9zu91Q+mRyBmkkPYEOKKsP1zrQrzbL+SgTPVRqIXIQlI86JKM50KMtypBvSUL4luNjS6UgNI/+9fuAcLuSjGb54/1RLC/dnUCmkgC2HG362r2YY+qJfwLdqggVWOyFwxJF3ejlf1jYapmmucG4wDMaR1RS4FvP9YdbvEuoGavEqjmAmKlX8G38QcJx8h5t2ai6zv9fa1wAB9Y8N9+2+b6WGo5sh9drCkaA8bW76iCDYpKt6lrGP8K4iJB20E2sxhE9GHKxx+AxGh0weqilzF8U7HQ3vce90cvZpMSv5IHV/OwSvetBmiVmCShvuFkq8FUojHqmA4ZBozaEuvdPhjRzyoqbOI/K2rIpYLPAWhbrkB5ewhY22bHoyAaYk1Ol9nyZApqsSKZ/k9gAK+g18hInRCs5k6sDqb8o24drsdsxMXu/39QLIRtfdLP9JGkT9Qiz2EPOuZcGPkWFQtgCszSTrnWpL/0uFpl+nAIAMn2ShPYp3vFIVH+nC14uY4RBsMeELq+220u2wfKoP6zEBqLv1hQbtwqHw2i/ymkRQzoVK/U0v/VPNaMvK+FOrm/s7DVW05EZAprUCn+Aa63orYP8=
