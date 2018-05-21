@@ -1,12 +1,37 @@
 # See https://github.com/jderusse/docker-gitsplit
-cache_dir: "/cache/gitsplit"
 
+# Path to a cache directory Used to speed up the split over time by reusing git's objects
+# cache_dir: "/cache/gitsplit"
+# cache_dir: "file:///cache/gitsplit"
+cache_dir: "https://${GH_TOKEN}@github.com/jderusse/test-split-cache.git"
+# cache_dir: "git@gitlab.com:jderusse/test-split-cache.git"
+
+# Path to the repository to split (default = current path)
+# project_dir: /home/me/workspace/another_test-split
+# project_dir: ~/workspace/another_test-split
+# project_dir: ../another_test-split
+# project_dir: file://~/workspace/another_test-split
+# project_dir: "https://${GH_TOKEN}@github.com/jderusse/test-split.git"
+# project_dir: "git@gitlab.com:jderusse/test-split.git"
+
+# List of splits.
 splits:
-  - prefix: "a"
+  - prefix: "src/partA"
     target: "https://${GH_TOKEN}@github.com/jderusse/test-split-a.git"
-  - prefix: "b"
-    target: "https://${GH_TOKEN}@github.com/jderusse/test-split-b.git"
+  - prefix: "src/partB"
+    target:
+      # You can push the split to several repositories
+      - "https://${GH_TOKEN}@github.com/jderusse/test-split-b.git"
+      - "https://${GH_TOKEN}@github.com/jderusse/test-split-z.git"
+  - prefix:
+      # You can use several prefix in the split
+      - "src/subTree/PartC"
+      - "src/subTree/PartZ"
+    target: "https://${GH_TOKEN}@github.com/jderusse/test-split-c.git"
 
+# List of references to split (defined as regexp)
 origins:
   - ^master$
-  - ^\d+.\d+$
+  - ^develop$
+  - ^feature/
+  - ^v\d+\.\d+\.\d+$
